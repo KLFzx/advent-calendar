@@ -12,13 +12,14 @@ export default function Home() {
     const { language } = useLanguage();
     const t = translations[language];
 
-    // Current date - December 4th, 2025
-    const currentDate = useMemo(() => {
-        return new Date('2025-12-04T11:30:00+02:00');
+    // Get current UTC date for consistent date checking across timezones
+    const { currentDay, currentMonth } = useMemo(() => {
+        const now = new Date();
+        return {
+            currentDay: now.getUTCDate(),
+            currentMonth: now.getUTCMonth() + 1 // 0-indexed, so +1 for December = 12
+        };
     }, []);
-
-    const currentDay = currentDate.getDate();
-    const currentMonth = currentDate.getMonth() + 1; // 0-indexed
 
     // Determine if a day is unlocked
     const isDayUnlocked = (day: number) => {
